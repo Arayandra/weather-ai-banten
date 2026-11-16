@@ -17,7 +17,8 @@ A Django-based weather dashboard for Banten, Indonesia. It combines current and 
 - Temperature and rainfall charts, plus a weather distribution chart.
 - City detail page with hourly forecast and recent temperature, humidity, and wind charts.
 - Historical dataset and trained model artifacts included in `data/`.
-- **Data Analytics notebook** covering data cleaning, data-quality checks, descriptive statistics, monthly trends, city comparisons, correlation, and IQR-based outlier inspection.
+- **Data Analytics workflow** with data cleaning, quality and city-date coverage checks, descriptive statistics, annual/monthly trends, city comparisons, rainfall distribution, Pearson/Spearman correlations, and global/per-city IQR outlier screening.
+- **Analysis findings report** with the current dataset summary, monthly patterns, city comparisons, quality-check results, and limitations: [docs/ANALYSIS_FINDINGS.md](docs/ANALYSIS_FINDINGS.md).
 - Safe configuration through environment variables; API keys and Django secrets are not stored in source code.
 
 ## Technology
@@ -94,7 +95,7 @@ The notebook is separate from the Django dashboard and can be run to explore the
    python -m jupyter lab notebooks/Weather_Data_Analysis.ipynb
    ```
 
-The notebook automatically searches for `data/dataset_banten_clean.csv`. It creates reproducible CSV summaries in `analysis_outputs/`; that generated folder is excluded from Git.
+The notebook automatically searches for `data/dataset_banten_clean.csv`. It creates reproducible CSV summaries in `analysis_outputs/`; that generated folder is excluded from Git. Use a dedicated `.venv-analysis` environment. The analysis requirements select a compatible Pandas/NumPy range for Python 3.14, while the Django/TensorFlow runtime stays in its own environment.
 
 Read the [Data Analysis Guide](docs/DATA_ANALYSIS.md) for the scope, variable interpretation, and limitations.
 
