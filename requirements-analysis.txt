@@ -1,6 +1,7 @@
-# Optional dependencies for the Weather Data Analysis notebook.
-# Install from the repository root with: python -m pip install -r requirements-analysis.txt
--r requirements.txt
-jupyterlab>=4.2,<5
+# Lightweight dependencies for the standalone data analysis notebook.
+# Install with: python -m pip install -r requirements-analysis.txt
+pandas>=2.2,<3
+numpy>=1.26,<2.2
 matplotlib>=3.8,<4
+jupyterlab>=4.2,<5
 ipykernel>=6.29,<7
