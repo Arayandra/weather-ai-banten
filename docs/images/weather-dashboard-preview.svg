@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071a35"/><stop offset="1" stop-color="#102c50"/></linearGradient>
+  <linearGradient id="card" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#15365b"/><stop offset="1" stop-color="#0d2747"/></linearGradient>
+  <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#31c4e8"/><stop offset="1" stop-color="#59a8ff"/></linearGradient>
+  <filter id="shadow"><feGaussianBlur stdDeviation="12"/></filter>
+</defs>
+<rect width="1440" height="900" fill="url(#bg)"/>
+<circle cx="1170" cy="40" r="260" fill="#174a75" opacity=".22"/>
+<circle cx="100" cy="820" r="300" fill="#0c5975" opacity=".18"/>
+<rect x="40" y="32" width="1360" height="836" rx="30" fill="#091c34" stroke="#24466a" stroke-width="2"/>
+<rect x="40" y="32" width="1360" height="78" rx="30" fill="#102b4c"/>
+<rect x="40" y="82" width="1360" height="28" fill="#102b4c"/>
+<circle cx="82" cy="71" r="13" fill="#37c4e7"/>
+<path d="M76 72c4-15 22-14 24-2 10 0 11 14 1 16H81c-12 0-13-13-5-14z" fill="#d7f5ff"/>
+<text x="116" y="79" fill="#f2f8ff" font-family="Arial,sans-serif" font-size="27" font-weight="700">WEATHER AI</text>
+<text x="1320" y="78" fill="#9db9d7" text-anchor="end" font-family="Arial,sans-serif" font-size="16">BANTEN WEATHER DASHBOARD</text>
+<text x="86" y="164" fill="#f4f8ff" font-family="Arial,sans-serif" font-size="34" font-weight="700">Weather Dashboard</text>
+<text x="86" y="194" fill="#9eb7d0" font-family="Arial,sans-serif" font-size="17">Pantau kondisi cuaca dan prediksi berbasis CNN-LSTM</text>
+<rect x="1100" y="133" width="245" height="50" rx="12" fill="#15385b" stroke="#2b5477"/>
+<text x="1122" y="164" fill="#d8e9f8" font-family="Arial,sans-serif" font-size="17">⌕   Banten, Indonesia</text>
+<rect x="86" y="224" width="400" height="188" rx="20" fill="url(#card)" stroke="#285279"/>
+<text x="116" y="266" fill="#9bb8d2" font-family="Arial,sans-serif" font-size="17">CURRENT WEATHER</text>
+<text x="116" y="333" fill="#ffffff" font-family="Arial,sans-serif" font-size="66" font-weight="700">29°</text>
+<text x="116" y="370" fill="#bbd1e5" font-family="Arial,sans-serif" font-size="18">Partly cloudy · Tangerang</text>
+<circle cx="388" cy="311" r="32" fill="#f8c85d"/>
+<path d="M362 320c3-19 23-27 38-15 17-2 27 10 24 24h-61c-13 0-14-9-1-9z" fill="#e9f5ff"/>
+<rect x="510" y="224" width="245" height="188" rx="20" fill="url(#card)" stroke="#285279"/>
+<text x="540" y="266" fill="#9bb8d2" font-family="Arial,sans-serif" font-size="17">HUMIDITY</text>
+<text x="540" y="335" fill="#ffffff" font-family="Arial,sans-serif" font-size="48" font-weight="700">78%</text>
+<text x="540" y="372" fill="#6fd4ea" font-family="Arial,sans-serif" font-size="16">Relative humidity</text>
+<rect x="779" y="224" width="245" height="188" rx="20" fill="url(#card)" stroke="#285279"/>
+<text x="809" y="266" fill="#9bb8d2" font-family="Arial,sans-serif" font-size="17">RAINFALL</text>
+<text x="809" y="335" fill="#ffffff" font-family="Arial,sans-serif" font-size="48" font-weight="700">2.4 mm</text>
+<text x="809" y="372" fill="#6fd4ea" font-family="Arial,sans-serif" font-size="16">Today's precipitation</text>
+<rect x="1048" y="224" width="297" height="188" rx="20" fill="url(#card)" stroke="#285279"/>
+<text x="1078" y="266" fill="#9bb8d2" font-family="Arial,sans-serif" font-size="17">WIND SPEED</text>
+<text x="1078" y="335" fill="#ffffff" font-family="Arial,sans-serif" font-size="48" font-weight="700">12 km/h</text>
+<text x="1078" y="372" fill="#6fd4ea" font-family="Arial,sans-serif" font-size="16">North-west direction</text>
+<rect x="86" y="440" width="770" height="292" rx="20" fill="url(#card)" stroke="#285279"/>
+<text x="118" y="483" fill="#f0f7ff" font-family="Arial,sans-serif" font-size="21" font-weight="700">Temperature &amp; Rainfall Trends</text>
+<text x="118" y="513" fill="#98b4cd" font-family="Arial,sans-serif" font-size="15">Historical observations and forecast overview</text>
+<g stroke="#315477" stroke-width="1" opacity=".75"><path d="M132 570H812M132 616H812M132 662H812"/><path d="M132 545V680"/></g>
+<path d="M132 647 C190 627 226 603 276 615 S358 579 406 589 S485 556 535 579 S620 552 667 567 S750 540 812 553" fill="none" stroke="#48c8ec" stroke-width="5" stroke-linecap="round"/>
+<path d="M132 674 C190 669 228 660 276 666 S358 644 406 658 S485 634 535 645 S620 627 667 639 S750 616 812 628" fill="none" stroke="#f4c45c" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 7"/>
+<text x="132" y="710" fill="#91abc4" font-family="Arial,sans-serif" font-size="13">MON</text><text x="298" y="710" fill="#91abc4" font-family="Arial,sans-serif" font-size="13">TUE</text><text x="465" y="710" fill="#91abc4" font-family="Arial,sans-serif" font-size="13">WED</text><text x="630" y="710" fill="#91abc4" font-family="Arial,sans-serif" font-size="13">THU</text><text x="796" y="710" fill="#91abc4" font-family="Arial,sans-serif" font-size="13">FRI</text>
+<rect x="882" y="440" width="463" height="292" rx="20" fill="url(#card)" stroke="#285279"/>
+<text x="914" y="483" fill="#f0f7ff" font-family="Arial,sans-serif" font-size="21" font-weight="700">Banten City Map</text>
+<rect x="914" y="510" width="399" height="190" rx="13" fill="#123451"/>
+<path d="M1010 520l65 12 27 34 49 6 37 40-18 40-52 9-28 27-51-15-36-40-57-14-12-54z" fill="#235b70" stroke="#4a9bb1" stroke-width="2"/>
+<g fill="#5be0f2" stroke="#e4fbff" stroke-width="2"><circle cx="1066" cy="564" r="7"/><circle cx="1128" cy="588" r="7"/><circle cx="1185" cy="624" r="7"/><circle cx="1040" cy="650" r="7"/><circle cx="1214" cy="560" r="7"/></g>
+<g fill="#d8e9f7" font-family="Arial,sans-serif" font-size="13"><text x="1080" y="560">Serang</text><text x="1140" y="585">Cilegon</text><text x="1198" y="620">Tangerang</text></g>
+<text x="86" y="790" fill="#e7f2ff" font-family="Arial,sans-serif" font-size="20" font-weight="700">7-Day Forecast</text>
+<g>
+<rect x="86" y="808" width="171" height="40" rx="10" fill="#15375b"/><rect x="271" y="808" width="171" height="40" rx="10" fill="#15375b"/><rect x="456" y="808" width="171" height="40" rx="10" fill="#15375b"/><rect x="641" y="808" width="171" height="40" rx="10" fill="#15375b"/><rect x="826" y="808" width="171" height="40" rx="10" fill="#15375b"/><rect x="1011" y="808" width="171" height="40" rx="10" fill="#15375b"/><rect x="1196" y="808" width="149" height="40" rx="10" fill="#15375b"/>
+<g fill="#dceeff" font-family="Arial,sans-serif" font-size="14" text-anchor="middle"><text x="171" y="834">MON · 29°</text><text x="356" y="834">TUE · 30°</text><text x="541" y="834">WED · 28°</text><text x="726" y="834">THU · 29°</text><text x="911" y="834">FRI · 31°</text><text x="1096" y="834">SAT · 30°</text><text x="1270" y="834">SUN · 29°</text></g>
+</g>
+</svg>
