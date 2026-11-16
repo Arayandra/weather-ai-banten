@@ -1,6 +1,6 @@
 # Weather AI — Banten Weather Forecast Dashboard
 
-A Django-based weather dashboard for Banten, Indonesia. It combines current and historical weather information with a **CNN-LSTM time-series model** to display a seven-day temperature and rainfall prediction, interactive city markers, and weather charts.
+A Django-based weather dashboard for Banten, Indonesia. It combines current and historical weather information with a **CNN-LSTM time-series model** to display a seven-day temperature and rainfall prediction, interactive city markers, and weather charts. The repository also includes a reproducible data analysis notebook for exploring the historical weather dataset.
 
 ## Dashboard Preview
 
@@ -17,6 +17,7 @@ A Django-based weather dashboard for Banten, Indonesia. It combines current and 
 - Temperature and rainfall charts, plus a weather distribution chart.
 - City detail page with hourly forecast and recent temperature, humidity, and wind charts.
 - Historical dataset and trained model artifacts included in `data/`.
+- **Data Analytics notebook** covering data cleaning, data-quality checks, descriptive statistics, monthly trends, city comparisons, correlation, and IQR-based outlier inspection.
 - Safe configuration through environment variables; API keys and Django secrets are not stored in source code.
 
 ## Technology
@@ -25,6 +26,7 @@ A Django-based weather dashboard for Banten, Indonesia. It combines current and 
 - Django 5.2 LTS
 - TensorFlow / Keras (CNN-LSTM model inference)
 - Pandas, NumPy, scikit-learn, Joblib
+- JupyterLab and Matplotlib (optional data analysis environment)
 - Leaflet, Chart.js, Bootstrap Icons
 - Open-Meteo, OpenStreetMap, and optional WeatherAPI integration
 
@@ -39,7 +41,7 @@ TensorFlow is configured for Python 3.10–3.13. Use 64-bit Python 3.13 (or 3.12
    .venv\Scripts\activate
    ```
 
-2. Install dependencies:
+2. Install application dependencies:
 
    ```cmd
    python -m pip install --upgrade pip
@@ -76,6 +78,26 @@ TensorFlow is configured for Python 3.10–3.13. Use 64-bit Python 3.13 (or 3.12
 
 6. Open <http://127.0.0.1:8000/>.
 
+## Run the Data Analytics Notebook
+
+The notebook is separate from the Django dashboard and can be run to explore the historical CSV dataset.
+
+1. From the repository root, install the optional analysis dependencies:
+
+   ```cmd
+   python -m pip install -r requirements-analysis.txt
+   ```
+
+2. Launch JupyterLab:
+
+   ```cmd
+   python -m jupyter lab notebooks/Weather_Data_Analysis.ipynb
+   ```
+
+The notebook automatically searches for `data/dataset_banten_clean.csv`. It creates reproducible CSV summaries in `analysis_outputs/`; that generated folder is excluded from Git.
+
+Read the [Data Analysis Guide](docs/DATA_ANALYSIS.md) for the scope, variable interpretation, and limitations.
+
 ## Publish to GitHub
 
 The repository `Arayandra/weather-ai-banten` already exists. To upload the complete project (including the dataset, trained model, original weather images, and source files):
@@ -89,27 +111,28 @@ The script excludes local `.env` files, local SQLite databases, virtual environm
 ## Project Structure
 
 ```text
-weatherProject/
+weather-ai-banten/
 ├── data/
 │   ├── dataset_banten_clean.csv
 │   ├── dataset_bundle.pkl
 │   └── model.keras
+├── docs/
+│   ├── images/
+│   └── DATA_ANALYSIS.md
+├── notebooks/
+│   └── Weather_Data_Analysis.ipynb
 ├── forecast/
 │   ├── static/
-│   │   ├── css/
-│   │   ├── img/
-│   │   └── js/
 │   ├── templates/
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py
 ├── weatherProject/
-│   ├── settings.py
-│   └── urls.py
 ├── .env.example
 ├── .gitignore
 ├── manage.py
-└── requirements.txt
+├── requirements.txt
+└── requirements-analysis.txt
 ```
 
 ## Environment Variables
@@ -127,7 +150,9 @@ Do not commit `.env`, API keys, production secrets, or a local SQLite database.
 
 - The application needs internet access to retrieve geocoding/weather data, map tiles, and CDN-hosted frontend libraries.
 - Without `WEATHERAPI_API_KEY`, current-weather/hourly WeatherAPI widgets are unavailable; the dashboard remains accessible and uses a clearly labeled historical baseline if the CNN-LSTM runtime/model cannot be loaded.
-- The seven-day forecast is a model output, not a guarantee of actual weather. Validate model performance with held-out data before using it for operational decisions.
+- The seven-day forecast is a model output, not a guarantee of actual weather. Validate model performance with a chronological holdout dataset before using it for operational decisions.
+- The data analysis notebook demonstrates descriptive analytics; it does not retrain or independently validate the CNN-LSTM model.
+- Confirm the dataset's upstream metadata for exact variable definitions, units, and source provenance. The `cape_proxy_radiation` feature should be treated as a proxy unless supported by a documented data dictionary.
 - For production deployment, set `DJANGO_DEBUG=False`, use a strong secret key, configure allowed hosts and HTTPS, and run Django's deployment checks.
 
 ---
