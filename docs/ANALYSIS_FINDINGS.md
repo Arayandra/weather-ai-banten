@@ -120,3 +120,79 @@ python -m jupyter lab notebooks/Weather_Data_Analysis.ipynb
 ```
 
 The optional analysis environment is separate from the Django/TensorFlow application environment. Generated CSVs are written to `analysis_outputs/` and are not committed by default.
+
+
+## 7. Extended analysis results (notebook run)
+
+The extended notebook was run against the same 17,885-row cleaned dataset. The following results come from the generated CSV files in `analysis_outputs/`.
+
+### City-date coverage
+
+All seven locations have 2,555 unique dates out of 2,555 expected dates in the dataset interval. Every location therefore has 100% date coverage for **3 January 2019 – 31 December 2025**. The coverage report records zero missing dates and zero duplicate city-date rows for each location.
+
+This result confirms date-key completeness within the dataset's stated interval; it does not independently verify the provenance or accuracy of the underlying weather measurements.
+
+### Annual averages
+
+| Year | Mean temperature (°C) | Mean precipitation (mm per city-day record) | Mean maximum wind speed* |
+| --- | ---: | ---: | ---: |
+| 2019 | 26.79 | 4.81 | 12.65 |
+| 2020 | 26.39 | 8.04 | 12.40 |
+| 2021 | 26.16 | 6.95 | 12.23 |
+| 2022 | 26.02 | 7.24 | 13.04 |
+| 2023 | 26.81 | 5.09 | 13.51 |
+| 2024 | 26.90 | 7.01 | 13.10 |
+| 2025 | 26.37 | 7.93 | 13.44 |
+
+The highest annual mean temperature in this dataset occurs in 2024 (26.90 °C), while the lowest occurs in 2022 (26.02 °C). The highest annual mean precipitation occurs in 2020 (8.04 mm per city-day record), and the lowest occurs in 2019 (4.81 mm per city-day record). These annual values are descriptive summaries, not evidence of a long-term climate trend.
+
+*The unit for `windspeed_10m_max` must be confirmed in the source data dictionary.
+
+### Rainfall distribution
+
+The generated rainfall quantiles are:
+
+| Percentile | Precipitation (mm) |
+| ---: | ---: |
+| 25th | 1.0 |
+| 50th (median) | 3.6 |
+| 75th | 9.6 |
+| 90th | 17.3 |
+| 95th | 23.2 |
+| 99th | 37.3 |
+| Maximum | 200.3 |
+
+The distribution is right-skewed: a relatively small number of high-rainfall observations extend the upper tail. The maximum value should be checked against source records and meteorological context rather than removed automatically.
+
+### Pearson and Spearman correlation
+
+Selected coefficients from the generated matrices:
+
+| Variable pair | Pearson | Spearman |
+| --- | ---: | ---: |
+| Temperature and precipitation | -0.442 | -0.522 |
+| Temperature and `cape_proxy_radiation` | +0.640 | +0.624 |
+| Precipitation and `cape_proxy_radiation` | -0.504 | -0.552 |
+| Wind speed and precipitation | -0.026 | -0.078 |
+
+The negative coefficients for temperature versus precipitation describe an inverse association in the pooled records. The proxy variable's meaning remains subject to source metadata. City and seasonal effects may influence pooled correlations, so these coefficients should not be interpreted as causal or as isolated within-city relationships.
+
+### City-level outlier screening
+
+For precipitation, the city-specific IQR screening flags the following share of records:
+
+| Location | Flagged values | Flagged (%) |
+| --- | ---: | ---: |
+| Kab. Pandeglang | 150 | 5.87 |
+| Kota Cilegon | 152 | 5.95 |
+| Kota Serang | 176 | 6.89 |
+| Kota Tangerang | 97 | 3.80 |
+| Provinsi Banten (Titik Tengah) | 171 | 6.69 |
+| Rangkasbitung (Lebak) | 120 | 4.70 |
+| Tangerang Selatan | 104 | 4.07 |
+
+These observations are review candidates, not confirmed errors. A high rainfall amount may be a real event.
+
+### Reproducibility note
+
+The extended notebook generated the following additional outputs: `city_day_coverage_report.csv`, `annual_weather_profile.csv`, `monthly_city_precipitation.csv`, `rainfall_quantiles.csv`, `rainfall_by_city.csv`, `weather_correlation_pearson.csv`, `weather_correlation_spearman.csv`, and `city_outlier_report.csv`. These files remain local generated outputs under `analysis_outputs/`; rerun the notebook to regenerate them.
