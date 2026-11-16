@@ -1,0 +1,9 @@
+/* Weather AI dashboard layout */
+.map-container{height:420px}
+.bottom-grid{align-items:stretch}
+.bottom-grid>.dashboard-card{min-width:0}
+.center-highlight{min-height:300px}
+.day-box{transition:transform .2s ease,box-shadow .2s ease}
+.day-box:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(15,23,42,.08)}
+@media(max-width:1100px){.bottom-grid{grid-template-columns:1fr 1fr}.bottom-grid>.dashboard-card:last-child{grid-column:1/-1}}
+@media(max-width:700px){.bottom-grid,.bottom-grid-2{grid-template-columns:1fr}.bottom-grid>.dashboard-card:last-child{grid-column:auto}}
