@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather AI Dashboard - Provinsi Banten</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/weather.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/odometer/themes/odometer-theme-default.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/odometer/odometer.min.js"></script>
+</head>
+<body>
+    <form id="mapForm" method="POST" style="display:none;">
+        {% csrf_token %}
+        <input type="hidden" name="city" id="mapCityInput">
+    </form>
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="spinner"></div><div class="loading-text">Memuat Data Cuaca...</div>
+    </div>
+    <div class="dashboard-wrapper">
+        {% if prediction_error %}
+        <div class="dashboard-card" role="status" style="margin-bottom:18px;border-left:4px solid #f59e0b;">
+            <strong>{{ prediction_source }}</strong> — {{ prediction_error }}
+        </div>
+        {% endif %}
+        <header class="top-header">
+            <h2><i class="bi bi-cloud-sun"></i> Weather Dashboard</h2>
+            <form method="POST" class="search-form">
+                {% csrf_token %}
+                <input type="text" name="city" class="search-input" placeholder="Cari kota..." value="{{ city }}">
+                <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
+            </form>
+        </header>
+        <section class="dashboard-card map-section">
+            <div class="card-title">Pemetaan Cuaca Provinsi Banten</div>
+            <div id="bantenMap" class="map-container" style="min-height:420px;width:100%;background:#e2e8f0;z-index:1;"></div>
+        </section>
+        <section class="bottom-grid">
+            <div class="dashboard-card">
+                <div class="card-title">Distribusi Curah Hujan (7 Hari Prediksi)</div>
+                <div class="chart-wrapper donut-wrapper"><canvas id="weatherDonutChart"></canvas></div>
+            </div>
+            <div class="dashboard-card center-highlight">
+                <div class="card-title">Cuaca Terkini: {{ city }}</div>
+                <h2 id="cityName" style="display:none;">{{ city }}</h2>
+                <div class="weather-icon-large"><i class="bi bi-cloud-sun-fill"></i></div>
+                <div class="temp-display">
+                    <span class="odometer" id="temp-value">{{ current.temp|default:"--"|floatformat:1 }}</span>°C
+                </div>
+                <div class="desc">{{ current.desc|default:"Data cuaca tidak tersedia" }}</div>
+                <div class="mini-details">
+                    <div><i class="bi bi-droplet-fill"></i> {{ current.humidity|default:"--" }}%</div>
+                    <div><i class="bi bi-wind"></i> {{ current.wind|default:"--" }} km/h</div>
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <div class="card-title">Riwayat &amp; Prediksi Suhu (14 Hari)</div>
+                <div class="chart-wrapper"><canvas id="chart"></canvas></div>
+            </div>
+        </section>
+        <section class="bottom-grid bottom-grid-2">
+            <div class="dashboard-card">
+                <div class="card-title">7 Hari Terakhir</div>
+                <div class="scroll-container">
+                    {% for h in history %}
+                    <div class="day-box">
+                        <span class="day-name">{{ h.day }}</span>
+                        <i class="bi {{ h.icon }} icon-weather"></i>
+                        <span class="day-temp">{{ h.temp }}°</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <div class="card-title">7 Hari Prediksi <span style="font-weight:400;color:#64748b;">({{ prediction_source }})</span></div>
+                <div class="scroll-container">
+                    {% for f in forecast %}
+                    <div class="day-box">
+                        <span class="day-name">{{ f.day }}</span>
+                        <i class="bi {{ f.icon }} icon-weather"></i>
+                        <span class="day-temp">{{ f.temp }}°</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </div>
+    {{ chart_labels|json_script:"chart-labels" }}
+    {{ chart_hist|json_script:"chart-hist" }}
+    {{ chart_pred|json_script:"chart-pred" }}
+    {{ chart_rain|json_script:"chart-rain" }}
+    {{ forecast_rain_values|json_script:"forecast-rain-values" }}
+    {{ city_weather_json|json_script:"city-weather-json" }}
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="{% static 'js/mapSetup.js' %}"></script>
+    <script src="{% static 'js/chartSetup.js' %}"></script>
+    <script src="{% static 'js/realtime.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchForm = document.querySelector('.search-form');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            if (searchForm) {
+                searchForm.addEventListener('submit', () => {
+                    if (loadingOverlay) loadingOverlay.classList.add('active');
+                });
+            }
+            window.addEventListener('pageshow', (event) => {
+                if (event.persisted && loadingOverlay) loadingOverlay.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
