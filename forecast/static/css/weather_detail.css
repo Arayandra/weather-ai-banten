@@ -1,9 +1,600 @@
-/* Weather AI city detail page */
-.detail-top-row{align-items:stretch}
-.detail-top-row>.dashboard-card{min-width:0}
-.hourly-scroll-container{scroll-behavior:smooth}
-.hourly-box{flex:0 0 100px}
-.hourly-box:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(15,23,42,.08)}
-.row>.dashboard-card{width:100%}
-.chart-container{height:280px}
-@media(max-width:700px){.detail-top-row{grid-template-columns:1fr}.chart-container{height:230px}.hourly-box{flex-basis:90px;min-width:90px}.val-wind,.val-dir{font-size:2.7rem}}
+/* =========================================================
+   WEATHER DETAIL FULL MODERN UI
+========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+    width:100%;
+    overflow-x:hidden;
+}
+
+/* =========================================================
+   BODY
+========================================================= */
+
+body{
+    font-family:'Poppins',sans-serif;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fbff 0%,
+            #eef5ff 40%,
+            #f4f8fc 100%
+        );
+
+    color:#0f172a;
+
+    min-height:100vh;
+}
+
+/* =========================================================
+   DASHBOARD WRAPPER
+========================================================= */
+
+.dashboard-wrapper{
+    width:100%;
+    max-width:1450px;
+
+    margin:auto;
+    padding:25px;
+}
+
+/* =========================================================
+   BREADCRUMB
+========================================================= */
+
+.breadcrumb-nav{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+
+    margin-bottom:22px;
+
+    font-size:15px;
+    color:#64748b;
+}
+
+.back-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding:10px 16px;
+
+    background:#ffffff;
+
+    border:1px solid #dbe4f0;
+    border-radius:14px;
+
+    text-decoration:none;
+
+    color:#334155;
+    font-weight:600;
+
+    transition:all .25s ease;
+}
+
+.back-btn:hover{
+    background:#f8fbff;
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 24px rgba(0,0,0,0.06);
+}
+
+/* =========================================================
+   TOP ROW
+========================================================= */
+
+.detail-top-row{
+    display:grid;
+    grid-template-columns:1.7fr 1fr;
+
+    gap:22px;
+
+    margin-bottom:24px;
+
+    align-items:start;
+}
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.dashboard-card{
+    background:rgba(255,255,255,0.92);
+
+    backdrop-filter:blur(14px);
+
+    border:1px solid rgba(226,232,240,0.9);
+
+    border-radius:24px;
+
+    padding:22px;
+
+    box-shadow:
+        0 10px 35px rgba(15,23,42,0.06),
+        0 2px 8px rgba(15,23,42,0.03);
+
+    overflow:hidden;
+}
+
+/* =========================================================
+   INNER GRID
+========================================================= */
+
+.inner-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+/* =========================================================
+   WIND HEADER GRID
+========================================================= */
+
+.wind-header-grid{
+    margin-bottom:22px;
+}
+
+/* =========================================================
+   INNER CELL
+========================================================= */
+
+.inner-cell{
+    position:relative;
+
+    min-height:150px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #f8fbff 100%
+        );
+
+    border:1px solid #dbe4f0;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    transition:all .25s ease;
+}
+
+.inner-cell:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 15px 30px rgba(0,0,0,0.06);
+}
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.stat-label{
+    font-size:11px;
+    font-weight:700;
+
+    letter-spacing:2px;
+    text-transform:uppercase;
+
+    color:#64748b;
+
+    margin-bottom:14px;
+}
+
+/* =========================================================
+   VALUE
+========================================================= */
+
+.val-wind,
+.val-dir,
+.val-temp,
+.val-hum,
+.val-rain,
+.val-pressure{
+    display:flex;
+    align-items:flex-end;
+    gap:8px;
+
+    line-height:1;
+}
+
+/* =========================================================
+   WIND
+========================================================= */
+
+.val-wind{
+    font-size:3.6rem;
+    font-weight:800;
+
+    color:#eab308;
+}
+
+/* =========================================================
+   DIRECTION
+========================================================= */
+
+.val-dir{
+    font-size:3.6rem;
+    font-weight:800;
+
+    color:#22c55e;
+}
+
+/* =========================================================
+   TEMP
+========================================================= */
+
+.val-temp{
+    font-size:2.7rem;
+    font-weight:800;
+
+    color:#ef4444;
+}
+
+/* =========================================================
+   HUMIDITY
+========================================================= */
+
+.val-hum{
+    font-size:2.7rem;
+    font-weight:800;
+
+    color:#2563eb;
+}
+
+/* =========================================================
+   RAIN
+========================================================= */
+
+.val-rain{
+    font-size:2.5rem;
+    font-weight:800;
+
+    color:#0f172a;
+}
+
+/* =========================================================
+   PRESSURE
+========================================================= */
+
+.val-pressure{
+    font-size:2.5rem;
+    font-weight:800;
+
+    color:#0f172a;
+}
+
+/* =========================================================
+   UNIT
+========================================================= */
+
+.unit{
+    font-size:1rem;
+    font-weight:600;
+
+    color:#94a3b8;
+
+    margin-bottom:7px;
+}
+
+/* =========================================================
+   WIND TEXT
+========================================================= */
+
+.wind-direction-text{
+    margin-top:10px;
+
+    font-size:14px;
+    font-weight:600;
+
+    color:#16a34a;
+
+    background:#dcfce7;
+
+    padding:6px 12px;
+
+    border-radius:999px;
+}
+
+/* =========================================================
+   HOURLY TITLE
+========================================================= */
+
+.hourly-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding-top:18px;
+    margin-bottom:18px;
+
+    border-top:1px dashed #cbd5e1;
+
+    font-size:18px;
+    font-weight:700;
+
+    color:#0f172a;
+}
+
+/* =========================================================
+   HOURLY SCROLL
+========================================================= */
+
+.hourly-scroll-container{
+    width:100%;
+
+    display:flex;
+    gap:16px;
+
+    overflow-x:auto;
+    overflow-y:hidden;
+
+    padding:4px 2px 12px;
+
+    scroll-behavior:smooth;
+}
+
+.hourly-scroll-container::-webkit-scrollbar{
+    height:8px;
+}
+
+.hourly-scroll-container::-webkit-scrollbar-thumb{
+    background:#cbd5e1;
+    border-radius:999px;
+}
+
+/* =========================================================
+   HOURLY BOX
+========================================================= */
+
+.hourly-box{
+    flex:0 0 115px;
+    min-width:115px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #f8fbff 100%
+        );
+
+    border:1px solid #dbe4f0;
+
+    border-radius:22px;
+
+    padding:18px 12px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    transition:all .25s ease;
+}
+
+.hourly-box:hover{
+    transform:translateY(-5px);
+
+    box-shadow:
+        0 18px 30px rgba(0,0,0,0.08);
+}
+
+/* =========================================================
+   TIME
+========================================================= */
+
+.hourly-box .time{
+    font-size:13px;
+    font-weight:700;
+
+    color:#64748b;
+}
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.hourly-box .icon{
+    font-size:34px;
+
+    margin:14px 0;
+
+    color:#38bdf8;
+}
+
+/* =========================================================
+   TEMP
+========================================================= */
+
+.hourly-box .temp{
+    font-size:2rem;
+    font-weight:800;
+
+    color:#0f172a;
+}
+
+/* =========================================================
+   DETAILS
+========================================================= */
+
+.hourly-box .details{
+    margin-top:10px;
+
+    font-size:12px;
+    line-height:1.7;
+
+    color:#64748b;
+}
+
+/* =========================================================
+   ROW
+========================================================= */
+
+.row{
+    margin-bottom:22px;
+}
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.card-title{
+    margin-bottom:18px;
+
+    font-size:15px;
+    font-weight:800;
+
+    letter-spacing:1px;
+    text-transform:uppercase;
+
+    color:#0f172a;
+}
+
+/* =========================================================
+   CHART
+========================================================= */
+
+.chart-container{
+    position:relative;
+
+    width:100%;
+    height:280px;
+}
+
+.chart-container canvas{
+    width:100% !important;
+    height:100% !important;
+}
+
+/* =========================================================
+   CHART CARD EFFECT
+========================================================= */
+
+.row .dashboard-card{
+    padding:24px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media(max-width:1100px){
+
+    .detail-top-row{
+        grid-template-columns:1fr;
+    }
+
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:768px){
+
+    .dashboard-wrapper{
+        padding:16px;
+    }
+
+    .inner-grid{
+        grid-template-columns:1fr;
+    }
+
+    .val-wind,
+    .val-dir{
+        font-size:2.8rem;
+    }
+
+    .val-temp,
+    .val-hum,
+    .val-rain,
+    .val-pressure{
+        font-size:2.2rem;
+    }
+
+    .hourly-box{
+        flex:0 0 96px;
+        min-width:96px;
+
+        padding:15px 10px;
+    }
+
+    .hourly-box .icon{
+        font-size:28px;
+    }
+
+    .hourly-box .temp{
+        font-size:1.6rem;
+    }
+
+    .chart-container{
+        height:240px;
+    }
+
+}
+
+/* =========================================================
+   EXTRA SMALL
+========================================================= */
+
+@media(max-width:480px){
+
+    .breadcrumb-nav{
+        font-size:13px;
+    }
+
+    .back-btn{
+        width:100%;
+        justify-content:center;
+    }
+
+    .dashboard-card{
+        padding:18px;
+        border-radius:20px;
+    }
+
+    .stat-label{
+        font-size:10px;
+    }
+
+    .val-wind,
+    .val-dir{
+        font-size:2.4rem;
+    }
+
+    .val-temp,
+    .val-hum,
+    .val-rain,
+    .val-pressure{
+        font-size:2rem;
+    }
+
+    .hourly-title{
+        font-size:16px;
+    }
+
+}

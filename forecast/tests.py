@@ -1,5 +1,7 @@
 from unittest.mock import patch
+
 from django.test import TestCase
+
 
 class WeatherDashboardSmokeTests(TestCase):
     @patch("forecast.views.get_hourly", return_value=[])
@@ -17,7 +19,9 @@ class WeatherDashboardSmokeTests(TestCase):
 
     @patch("forecast.views.get_current", return_value=None)
     @patch("forecast.views.get_lat_lon", return_value=(-6.4, 106.1))
-    def test_weather_api_returns_controlled_error_without_provider_key(self, _lat_lon, _current):
+    def test_weather_api_returns_controlled_error_without_provider_key(
+        self, _lat_lon, _current
+    ):
         response = self.client.get("/api/weather/?city=Banten")
         self.assertEqual(response.status_code, 400)
         self.assertJSONEqual(response.content, {"success": False})
@@ -32,3 +36,25 @@ class WeatherDashboardSmokeTests(TestCase):
         response = self.client.get("/weather/Serang/")
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Serang")
+
+
+class WeatherModelArtifactTests(TestCase):
+    def test_dataset_bundle_matches_runtime_feature_contract(self):
+        import json
+        import joblib
+        import zipfile
+        from forecast.views import FEATURES, BUNDLE_PATH, MODEL_PATH, CSV_PATH
+        import pandas as pd
+
+        bundle = joblib.load(BUNDLE_PATH)
+        self.assertEqual(bundle["features_list"], FEATURES)
+        self.assertEqual(bundle["scaler_X"].n_features_in_, len(FEATURES))
+        self.assertEqual(bundle["scaler_y"].n_features_in_, 2)
+
+        dataset = pd.read_csv(CSV_PATH, usecols=FEATURES)
+        self.assertGreaterEqual(len(dataset), 31)
+
+        with zipfile.ZipFile(MODEL_PATH) as archive:
+            model_config = json.loads(archive.read("config.json"))
+        model_input_shape = model_config["config"]["layers"][0]["config"]["batch_shape"]
+        self.assertEqual(model_input_shape, [None, 31, 20])
