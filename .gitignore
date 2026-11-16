@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Jupyter
+.ipynb_checkpoints/
+
+# Generated notebook analysis outputs
+analysis_outputs/
+
 # Virtual environments
 .venv/
 venv/
