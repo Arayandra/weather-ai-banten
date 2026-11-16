@@ -1,0 +1,86 @@
+name: Weather AI Banten CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          cache: pip
+
+      - name: Install dataset validation dependency
+        run: python -m pip install --upgrade pip pandas
+
+      - name: Compile Django and analysis Python sources
+        run: python -m compileall -q manage.py forecast weatherProject
+
+      - name: Validate notebook JSON structure
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          notebook_path = Path("notebooks/Weather_Data_Analysis.ipynb")
+          notebook = json.loads(notebook_path.read_text(encoding="utf-8"))
+
+          assert notebook.get("nbformat") == 4, "Expected a Jupyter Notebook v4 file"
+          cells = notebook.get("cells", [])
+          assert cells, "Notebook must contain cells"
+          assert all(cell.get("cell_type") in {"markdown", "code"} for cell in cells)
+          assert all(isinstance(cell.get("source", []), (str, list)) for cell in cells)
+
+          print(f"Notebook structure valid: {len(cells)} cells")
+          PY
+
+      - name: Validate cleaned Banten dataset
+        run: |
+          python - <<'PY'
+          import pandas as pd
+
+          path = "data/dataset_banten_clean.csv"
+          df = pd.read_csv(path)
+          required = {
+              "city",
+              "date",
+              "temperature_2m_mean",
+              "precipitation_sum",
+          }
+          missing_columns = required.difference(df.columns)
+          assert not missing_columns, f"Missing required columns: {sorted(missing_columns)}"
+          assert not df.empty, "Cleaned weather dataset is empty"
+          assert df["city"].nunique() == 7, "Expected seven Banten analysis locations"
+          assert df["date"].notna().all(), "Date column contains null values"
+          assert not df.duplicated(subset=["city", "date"]).any(), "Duplicate city/date rows found"
+
+          parsed_dates = pd.to_datetime(df["date"], errors="coerce")
+          assert parsed_dates.notna().all(), "Date column contains invalid date values"
+          assert df[["city", "temperature_2m_mean", "precipitation_sum"]].notna().all().all(), (
+              "Required cleaned fields contain null values"
+          )
+
+          print(
+              f"Dataset validation passed: {len(df):,} records, "
+              f"{df['city'].nunique()} locations, "
+              f"{parsed_dates.min().date()} to {parsed_dates.max().date()}"
+          )
+          PY
+
+      - name: Validate analysis notebook and dataset files exist
+        run: |
+          test -s notebooks/Weather_Data_Analysis.ipynb
+          test -s data/dataset_banten_clean.csv
