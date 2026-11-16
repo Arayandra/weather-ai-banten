@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Dashboard - {{ city }}</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/weather_detail.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <nav class="breadcrumb-nav">
+            <a href="{% url 'weather_dashboard' %}" class="back-btn" id="btn-back">
+                <i class="bi bi-arrow-left"></i> Kembali ke Dashboard
+            </a>
+            <span>/ Detail Kota / <strong>{{ city }}</strong></span>
+        </nav>
+
+        <div class="detail-top-row">
+            <div class="dashboard-card">
+                <div class="inner-grid wind-header-grid">
+                    <div class="inner-cell">
+                        <div class="stat-label">KECEPATAN ANGIN</div>
+                        <div class="val-wind"><span id="live-wind">{{ current.wind|default:"--" }}</span><span class="unit">km/h</span></div>
+                    </div>
+                    <div class="inner-cell">
+                        <div class="stat-label">ARAH ANGIN</div>
+                        <div class="val-dir"><span id="live-dir">{{ current.wind_dir|default:"--" }}</span><span class="unit">°</span></div>
+                        <div class="wind-direction-text">{{ current.wind_dir_text|default:"--" }}</div>
+                    </div>
+                </div>
+                <div class="hourly-title"><i class="bi bi-clock-history"></i> Prakiraan Cuaca 24 Jam</div>
+                <div class="hourly-scroll-container">
+                    {% for f in forecast_3h %}
+                    <div class="hourly-box">
+                        <span class="time">{{ f.time }}</span>
+                        <i class="bi {{ f.icon }} icon"></i>
+                        <span class="temp">{{ f.temp }}°</span>
+                        <div class="details">
+                            <div style="margin-bottom:3px;">💧 {{ f.hum }}%</div>
+                            <div>🌧️ {{ f.rain }} mm</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="dashboard-card">
+                <div class="inner-grid">
+                    <div class="inner-cell">
+                        <div class="stat-label">SUHU</div>
+                        <div class="val-temp"><span id="live-temp">{{ current.temp|default:"--" }}</span>°C</div>
+                    </div>
+                    <div class="inner-cell">
+                        <div class="stat-label">KELEMBAPAN</div>
+                        <div class="val-hum"><span id="live-hum">{{ current.humidity|default:"--" }}</span>%</div>
+                    </div>
+                    <div class="inner-cell">
+                        <div class="stat-label">CURAH HUJAN</div>
+                        <div class="val-rain"><span id="live-rain">{{ current.rain|default:"--" }}</span> <span class="unit" style="font-size:0.8rem;color:#94a3b8;">mm</span></div>
+                    </div>
+                    <div class="inner-cell">
+                        <div class="stat-label">TEKANAN</div>
+                        <div class="val-pressure"><span id="live-pressure">{{ current.pressure|default:"--" }}</span> <span class="unit" style="font-size:0.8rem;color:#94a3b8;">hPa</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="dashboard-card" style="width:100%;">
+                <div class="card-title">REAL-TIME TEMPERATURE TREND (°C)</div>
+                <div class="chart-container" style="position:relative;height:260px;width:100%;"><canvas id="tempChart"></canvas></div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="dashboard-card" style="width:100%;">
+                <div class="card-title">REAL-TIME HUMIDITY TREND (%)</div>
+                <div class="chart-container" style="position:relative;height:260px;width:100%;"><canvas id="humChart"></canvas></div>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="dashboard-card" style="width:100%;">
+                <div class="card-title">REAL-TIME WIND SPEED TREND (KM/H)</div>
+                <div class="chart-container" style="position:relative;height:260px;width:100%;"><canvas id="windChart"></canvas></div>
+            </div>
+        </div>
+    </div>
+    <h2 id="cityName" style="display:none;">{{ city }}</h2>
+    <script>
+        const WEATHER_CONFIG = {
+            city: '{{ city|escapejs }}',
+            labelsHist: JSON.parse('{{ labels_json|escapejs }}' || '[]'),
+            tempsHist: JSON.parse('{{ temps_json|escapejs }}' || '[]'),
+            humsHist: JSON.parse('{{ hums_json|escapejs }}' || '[]'),
+            windsHist: JSON.parse('{{ winds_json|escapejs }}' || '[]')
+        };
+    </script>
+    <script src="{% static 'js/live_weather.js' %}"></script>
+</body>
+</html>
