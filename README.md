@@ -1,5 +1,7 @@
 # Weather AI — Banten Weather Forecast Dashboard
 
+![CI](https://github.com/Arayandra/weather-ai-banten/actions/workflows/ci.yml/badge.svg?branch=main)
+
 A Django-based weather dashboard for Banten, Indonesia. It combines current and historical weather information with a **CNN-LSTM time-series model** to display a seven-day temperature and rainfall prediction, interactive city markers, and weather charts. The repository also includes a reproducible data analysis notebook for exploring the historical weather dataset.
 
 ## Dashboard Preview
