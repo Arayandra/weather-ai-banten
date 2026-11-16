@@ -119,7 +119,8 @@ weather-ai-banten/
 │   └── model.keras
 ├── docs/
 │   ├── images/
-│   └── DATA_ANALYSIS.md
+│   ├── DATA_ANALYSIS.md
+│   └── ANALYSIS_FINDINGS.md
 ├── notebooks/
 │   └── Weather_Data_Analysis.ipynb
 ├── forecast/
