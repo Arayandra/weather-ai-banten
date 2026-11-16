@@ -1,6 +1,6 @@
 # Tested-compatible application stack; use Python 3.10–3.13 (64-bit).
 Django>=5.2.19,<5.3
-python-dotenv>=1.0,<2
+python-dotenv>=1.2.4,<2
 requests>=2.32,<3
 pandas>=2.2,<3
 numpy>=1.26,<2.2
