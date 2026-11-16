@@ -11,6 +11,7 @@ analysis_outputs/
 
 # Virtual environments
 .venv/
+.venv-analysis/
 venv/
 env/
 
