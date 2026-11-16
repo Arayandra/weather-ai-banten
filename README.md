@@ -162,3 +162,8 @@ Do not commit `.env`, API keys, production secrets, or a local SQLite database.
 ---
 
 Made for a Banten weather forecasting project.
+
+
+## Latest CI verification
+
+Verified on **16 November 2026** on branch `main`: Python source compilation, notebook JSON structure validation, and cleaned-dataset integrity checks passed. The dataset check confirmed seven analysis locations with valid dates and no duplicate city/date records. The current CI workflow does **not** run the Django test suite, load the trained model for inference, calculate forecast metrics, or verify live weather API integrations. Those checks remain a recommended next step.
